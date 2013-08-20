@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.atoennis.fuellog.TripFormActivity"
+            android:label="@string/title_activity_trip_form"
+            android:parentActivityName="com.atoennis.fuellog.TripsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.atoennis.fuellog.TripsActivity" />
+        </activity>
     </application>
 
 </manifest>
