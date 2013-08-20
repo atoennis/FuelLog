@@ -32,6 +32,7 @@ public final class R {
         public static final int content_frame=0x7f090001;
         public static final int drawer_layout=0x7f090000;
         public static final int left_drawer=0x7f090002;
+        public static final int menu_add_trip=0x7f090004;
     }
     public static final class layout {
         public static final int activity_trip_form=0x7f030000;

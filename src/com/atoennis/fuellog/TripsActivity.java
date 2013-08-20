@@ -1,6 +1,7 @@
 package com.atoennis.fuellog;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -95,25 +96,34 @@ public class TripsActivity extends Activity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        if (drawerToggle.onOptionsItemSelected(item))
-        {
-            return true;
-        }
-        // Handle your other action bar items...
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.trips, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (drawerToggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+        switch (item.getItemId())
+        {
+            case R.id.menu_add_trip:
+                onAddTripPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void onAddTripPressed()
+    {
+        Intent intent = TripFormActivity.buildTripFormActivityIntent(this);
+        startActivity(intent);
     }
 
 }
