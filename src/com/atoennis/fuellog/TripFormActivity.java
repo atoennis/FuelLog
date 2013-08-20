@@ -23,7 +23,7 @@ public class TripFormActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_form);
-        // Show the Up button in the action bar.
+
         setupActionBar();
     }
 
@@ -32,9 +32,7 @@ public class TripFormActivity extends Activity
      */
     private void setupActionBar()
     {
-
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override
