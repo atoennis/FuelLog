@@ -1,12 +1,16 @@
 package com.atoennis.fuellog;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -18,7 +22,9 @@ import android.view.ViewGroup;
  */
 public class TripFormFragment extends Fragment
 {
-    private OnTripFormInteractionListener mListener;
+    private OnTripFormInteractionListener listener;
+    private Button                        datePicker;
+    private String                        selectedDate;
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
@@ -49,16 +55,26 @@ public class TripFormFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trip_form, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_trip_form, container, false);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri)
-    {
-        if (mListener != null)
+        datePicker = (Button) view.findViewById(R.id.date_picker);
+        datePicker.setOnClickListener(new View.OnClickListener()
         {
-        }
+            @Override
+            public void onClick(View v)
+            {
+                if (listener != null)
+                {
+                    listener.onDateSelectorPressed();
+                }
+            }
+        });
+
+        Calendar cal = Calendar.getInstance();
+        setDateLabel(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH));
+
+        return view;
     }
 
     @Override
@@ -67,7 +83,7 @@ public class TripFormFragment extends Fragment
         super.onAttach(activity);
         try
         {
-            mListener = (OnTripFormInteractionListener) activity;
+            listener = (OnTripFormInteractionListener) activity;
         }
         catch (ClassCastException e)
         {
@@ -80,9 +96,25 @@ public class TripFormFragment extends Fragment
     public void onDetach()
     {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 
+    public void onDateSelected(int year, int monthOfYear, int dayOfMonth)
+    {
+        setDateLabel(year, monthOfYear, dayOfMonth);
+    }
+
+    private void setDateLabel(int year, int monthOfYear, int dayOfMonth)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(year, monthOfYear, dayOfMonth);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EE, MMM d, yyyy");
+        String formattedDate = dateFormat.format(new Date(cal.getTimeInMillis()));
+
+        datePicker.setText(formattedDate);
+    }
     /**
      * This interface must be implemented by activities that contain this fragment to allow an
      * interaction in this fragment to be communicated to the activity and potentially other
@@ -94,6 +126,7 @@ public class TripFormFragment extends Fragment
      */
     public interface OnTripFormInteractionListener
     {
+        public void onDateSelectorPressed();
     }
 
 }

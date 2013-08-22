@@ -3,6 +3,7 @@ package com.atoennis.fuellog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,10 +11,15 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.atoennis.fuellog.DatePickerFragment.OnDatePickerInteractionListener;
 import com.atoennis.fuellog.TripFormFragment.OnTripFormInteractionListener;
 
-public class TripFormActivity extends FragmentActivity implements OnTripFormInteractionListener
+public class TripFormActivity extends FragmentActivity
+    implements OnTripFormInteractionListener, OnDatePickerInteractionListener
 {
+
+    private static final String DIALOG_FRAGMENT = "DIALOG_FRAGMENT";
+    private TripFormFragment    tripFragment;
 
     public static Intent buildTripFormActivityIntent(Context context)
     {
@@ -21,6 +27,7 @@ public class TripFormActivity extends FragmentActivity implements OnTripFormInte
 
         return intent;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,6 +43,23 @@ public class TripFormActivity extends FragmentActivity implements OnTripFormInte
         transaction.commit();
 
         setupActionBar();
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment)
+    {
+        if (fragment instanceof TripFormFragment)
+        {
+            tripFragment = (TripFormFragment) fragment;
+        }
+        super.onAttachFragment(fragment);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        tripFragment = null;
+        super.onDestroy();
     }
 
     /**
@@ -65,4 +89,19 @@ public class TripFormActivity extends FragmentActivity implements OnTripFormInte
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDateSelectorPressed()
+    {
+        DatePickerFragment fragment = DatePickerFragment.newInstance();
+        fragment.show(getSupportFragmentManager(), DIALOG_FRAGMENT);
+    }
+
+    @Override
+    public void onDateSelected(int year, int monthOfYear, int dayOfMonth)
+    {
+        if (tripFragment != null)
+        {
+            tripFragment.onDateSelected(year, monthOfYear, dayOfMonth);
+        }
+    }
 }
