@@ -16,5 +16,10 @@
     <string name="title_activity_trip_form">TripFormActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string name="hint_date">Date mm/dd/yyyy</string>
+    <string name="hint_distance">Odometer mi</string>
+    <string name="hint_volume">Fuel gal</string>
+    <string name="hint_volume_price">Volume Price USD/gal</string>
 
 </resources>
