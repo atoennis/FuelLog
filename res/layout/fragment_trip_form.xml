@@ -4,36 +4,50 @@
     android:layout_height="match_parent"
     tools:context=".TripFormFragment" >
 
-    <EditText
-        android:id="@+id/date"
+    <LinearLayout
+        android:id="@+id/date_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:inputType="date" 
-        android:hint="@string/hint_date"/>
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="@string/hint_date"
+            android:inputType="date" />
+
+        <Button
+            android:id="@+id/current_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_weight="1"
+            android:text="@string/label_now"/>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/distance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/date"
-        android:inputType="number" 
-        android:hint="@string/hint_distance"/>
+        android:layout_below="@id/date_container"
+        android:hint="@string/hint_distance"
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/volume"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/distance"
-        android:inputType="numberDecimal"
-        android:hint="@string/hint_volume"/>
+        android:hint="@string/hint_volume"
+        android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/volume_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/volume"
-        android:inputType="numberDecimal" 
-        android:hint="@string/hint_volume_price"/>
+        android:hint="@string/hint_volume_price"
+        android:inputType="numberDecimal" />
 
 </RelativeLayout>

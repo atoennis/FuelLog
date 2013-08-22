@@ -21,5 +21,6 @@
     <string name="hint_distance">Odometer mi</string>
     <string name="hint_volume">Fuel gal</string>
     <string name="hint_volume_price">Volume Price USD/gal</string>
+    <string name="label_now">Now</string>
 
 </resources>
