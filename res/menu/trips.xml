@@ -2,7 +2,6 @@
 
     <item
         android:id="@+id/menu_add_trip"
-        android:orderInCategory="100"
         android:showAsAction="always"
         android:icon="@drawable/ic_menu_new"
         android:title="@string/menu_add_trip"/>

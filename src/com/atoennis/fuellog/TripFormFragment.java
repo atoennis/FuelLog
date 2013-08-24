@@ -24,7 +24,6 @@ public class TripFormFragment extends Fragment
 {
     private OnTripFormInteractionListener listener;
     private Button                        datePicker;
-    private String                        selectedDate;
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
@@ -115,6 +114,7 @@ public class TripFormFragment extends Fragment
 
         datePicker.setText(formattedDate);
     }
+
     /**
      * This interface must be implemented by activities that contain this fragment to allow an
      * interaction in this fragment to be communicated to the activity and potentially other
@@ -128,5 +128,4 @@ public class TripFormFragment extends Fragment
     {
         public void onDateSelectorPressed();
     }
-
 }

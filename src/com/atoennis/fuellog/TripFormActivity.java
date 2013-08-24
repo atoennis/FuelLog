@@ -1,5 +1,6 @@
 package com.atoennis.fuellog;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.atoennis.fuellog.DatePickerFragment.OnDatePickerInteractionListener;
 import com.atoennis.fuellog.TripFormFragment.OnTripFormInteractionListener;
@@ -45,6 +46,41 @@ public class TripFormActivity extends FragmentActivity
         setupActionBar();
     }
 
+    /**
+     * Set up the {@link android.app.ActionBar}.
+     */
+    private void setupActionBar()
+    {
+        final LayoutInflater inflator = (LayoutInflater) getActionBar().getThemedContext()
+            .getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View customActionBarView = inflator.inflate(R.layout.actionbar_custom_cancel_done,
+            null);
+        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
+            new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    finish();
+                }
+            });
+        customActionBarView.findViewById(R.id.actionbar_cancel).setOnClickListener(
+            new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    finish();
+                }
+            });
+
+        final ActionBar actionBar = getActionBar();
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM
+            | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+        actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    }
+
     @Override
     public void onAttachFragment(Fragment fragment)
     {
@@ -62,32 +98,6 @@ public class TripFormActivity extends FragmentActivity
         super.onDestroy();
     }
 
-    /**
-     * Set up the {@link android.app.ActionBar}.
-     */
-    private void setupActionBar()
-    {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.trip_form, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onDateSelectorPressed()

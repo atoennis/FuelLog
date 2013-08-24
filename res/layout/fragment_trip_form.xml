@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/date_container"
         android:hint="@string/hint_distance"
-        android:inputType="number" />
+        android:inputType="number" 
+        android:maxLength="6"/>
 
     <EditText
         android:id="@+id/volume"
@@ -33,7 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/distance"
         android:hint="@string/hint_volume"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal" 
+        android:maxLength="6"/>
 
     <EditText
         android:id="@+id/volume_price"
@@ -41,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/volume"
         android:hint="@string/hint_volume_price"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal" 
+        android:maxLength="5"/>
 
 </RelativeLayout>

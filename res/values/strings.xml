@@ -3,6 +3,8 @@
 
     <string name="app_name">FuelLog</string>
     <string name="menu_add_trip">Add Trip</string>
+    <string name="menu_cancel">CANCEL</string>
+    <string name="menu_accept">DONE</string>
     <string name="hello_world">Hello world!</string>
 
     <string-array name="navigation_items">
