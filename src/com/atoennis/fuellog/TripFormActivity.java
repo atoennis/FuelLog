@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.atoennis.fuellog.DatePickerFragment.OnDatePickerInteractionListener;
 import com.atoennis.fuellog.TripFormFragment.OnTripFormInteractionListener;
+import com.atoennis.fuellog.domain.Trip;
 
 public class TripFormActivity extends FragmentActivity
     implements OnTripFormInteractionListener, OnDatePickerInteractionListener
@@ -61,7 +62,7 @@ public class TripFormActivity extends FragmentActivity
                 @Override
                 public void onClick(View v)
                 {
-                    finish();
+                    onSavePressed();
                 }
             });
         customActionBarView.findViewById(R.id.actionbar_cancel).setOnClickListener(
@@ -113,5 +114,14 @@ public class TripFormActivity extends FragmentActivity
         {
             tripFragment.onDateSelected(year, monthOfYear, dayOfMonth);
         }
+    }
+
+    private void onSavePressed()
+    {
+        Trip trip = tripFragment.getFormData();
+
+        // TODO: Save information to database.
+
+        finish();
     }
 }

@@ -1,5 +1,6 @@
 package com.atoennis.fuellog;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.atoennis.fuellog.domain.Trip;
 
 
 /**
@@ -24,6 +28,9 @@ public class TripFormFragment extends Fragment
 {
     private OnTripFormInteractionListener listener;
     private Button                        datePicker;
+    private EditText                      distanceInput;
+    private EditText                      volumeInput;
+    private EditText                      volumePriceInput;
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
@@ -73,6 +80,10 @@ public class TripFormFragment extends Fragment
         setDateLabel(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
             cal.get(Calendar.DAY_OF_MONTH));
 
+        distanceInput = (EditText) view.findViewById(R.id.distance);
+        volumeInput = (EditText) view.findViewById(R.id.volume);
+        volumePriceInput = (EditText) view.findViewById(R.id.volume_price);
+
         return view;
     }
 
@@ -101,6 +112,26 @@ public class TripFormFragment extends Fragment
     public void onDateSelected(int year, int monthOfYear, int dayOfMonth)
     {
         setDateLabel(year, monthOfYear, dayOfMonth);
+    }
+
+    public Trip getFormData()
+    {
+        String dateStr = datePicker.getText().toString();
+        Date date = null;
+        try
+        {
+            date = new SimpleDateFormat("EE, MMM d, yyyy").parse(dateStr);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        int distance = Integer.parseInt(distanceInput.getText().toString());
+        int volume = Integer.parseInt(volumeInput.getText().toString());
+        int volumePrice = Integer.parseInt(volumePriceInput.getText().toString());
+
+        return new Trip(date, distance, volume, volumePrice);
     }
 
     private void setDateLabel(int year, int monthOfYear, int dayOfMonth)
