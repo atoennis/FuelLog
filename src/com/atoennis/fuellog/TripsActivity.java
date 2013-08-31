@@ -1,6 +1,7 @@
 package com.atoennis.fuellog;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,7 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class TripsActivity extends Activity
+import com.atoennis.fuellog.TripFragment.OnFragmentInteractionListener;
+
+public class TripsActivity extends Activity implements OnFragmentInteractionListener
 {
     private String[]              navigationItems;
     private DrawerLayout          drawerLayout;
@@ -38,6 +41,13 @@ public class TripsActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trips);
+
+        android.app.FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        TripFragment fragment = TripFragment.newInstance(null, null);
+        transaction.add(R.id.fragment_container, fragment, "PRIMARY_FRAGMENT");
+        transaction.commit();
 
         title = drawerTitle = getTitle();
         navigationItems = getResources().getStringArray(R.array.navigation_items);
@@ -124,6 +134,13 @@ public class TripsActivity extends Activity
     {
         Intent intent = TripFormActivity.buildTripFormActivityIntent(this);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFragmentInteraction(String id)
+    {
+        // TODO Auto-generated method stub
+
     }
 
 }
