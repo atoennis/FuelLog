@@ -114,6 +114,17 @@ public class TripFormFragment extends Fragment
         setDateLabel(year, monthOfYear, dayOfMonth);
     }
 
+    public boolean isFormValid()
+    {
+        String distance = distanceInput.getText().toString();
+        String volume = volumeInput.getText().toString();
+        String volumePrice = volumePriceInput.getText().toString();
+
+        return distance != null
+            && !distance.isEmpty() && volume != null && !volume.isEmpty() && volumePrice != null
+            && !volumePrice.isEmpty();
+    }
+
     public Trip getFormData()
     {
         String dateStr = datePicker.getText().toString();

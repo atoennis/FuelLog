@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.atoennis.fuellog.DatePickerFragment.OnDatePickerInteractionListener;
 import com.atoennis.fuellog.FuelTripContract.TripEntry;
@@ -120,11 +121,19 @@ public class TripFormActivity extends FragmentActivity
 
     private void onSavePressed()
     {
-        Trip trip = tripFragment.getFormData();
+        if (tripFragment != null
+            && tripFragment.isFormValid())
+        {
+            Trip trip = tripFragment.getFormData();
 
-        // TODO: Pull this into it's own thread.
-        SQLiteDatabase db = new FuelTripDbHelper(this).getWritableDatabase();
-        db.insert(TripEntry.TABLE_NAME, null, trip.getContentValues());
+            // TODO: Pull this into it's own thread.
+            SQLiteDatabase db = new FuelTripDbHelper(this).getWritableDatabase();
+            db.insert(TripEntry.TABLE_NAME, null, trip.getContentValues());
+        }
+        else
+        {
+            Toast.makeText(this, "Empty trip not saved.", Toast.LENGTH_SHORT).show();
+        }
 
         finish();
     }
