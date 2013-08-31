@@ -3,6 +3,7 @@ package com.atoennis.fuellog;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.atoennis.fuellog.DatePickerFragment.OnDatePickerInteractionListener;
+import com.atoennis.fuellog.FuelTripContract.TripEntry;
 import com.atoennis.fuellog.TripFormFragment.OnTripFormInteractionListener;
 import com.atoennis.fuellog.domain.Trip;
 
@@ -120,7 +122,9 @@ public class TripFormActivity extends FragmentActivity
     {
         Trip trip = tripFragment.getFormData();
 
-        // TODO: Save information to database.
+        // TODO: Pull this into it's own thread.
+        SQLiteDatabase db = new FuelTripDbHelper(this).getWritableDatabase();
+        db.insert(TripEntry.TABLE_NAME, null, trip.getContentValues());
 
         finish();
     }
