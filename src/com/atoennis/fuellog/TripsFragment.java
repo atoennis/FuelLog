@@ -24,34 +24,23 @@ import com.atoennis.fuellog.dummy.DummyContent;
 public class TripsFragment extends Fragment implements AbsListView.OnItemClickListener
 {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String           ARG_PARAM1 = "param1";
-    private static final String           ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String                        mParam1;
-    private String                        mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    private OnTripsInteractionListener listener;
 
     /**
      * The fragment's ListView/GridView.
      */
-    private AbsListView                   mListView;
+    private AbsListView                mListView;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with Views.
      */
-    private ListAdapter                   mAdapter;
+    private ListAdapter                mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static TripsFragment newInstance(String param1, String param2)
+    public static TripsFragment newInstance()
     {
         TripsFragment fragment = new TripsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,12 +57,6 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null)
-        {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
         // TODO: Change Adapter to display your content
         mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
@@ -101,12 +84,12 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
         super.onAttach(activity);
         try
         {
-            mListener = (OnFragmentInteractionListener) activity;
+            listener = (OnTripsInteractionListener) activity;
         }
         catch (ClassCastException e)
         {
-            throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
+            throw new ClassCastException(String.format("%s must implement %s", activity.toString(),
+                OnTripsInteractionListener.class.getSimpleName()));
         }
     }
 
@@ -114,18 +97,18 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
     public void onDetach()
     {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        if (null != mListener)
+        if (null != listener)
         {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            listener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
     }
 
@@ -152,7 +135,7 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
      * "http://developer.android.com/training/basics/fragments/communicating.html" >Communicating
      * with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener
+    public interface OnTripsInteractionListener
     {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
