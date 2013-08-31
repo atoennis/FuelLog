@@ -14,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.atoennis.fuellog.TripFragment.OnFragmentInteractionListener;
+import com.atoennis.fuellog.TripsFragment.OnFragmentInteractionListener;
 
 public class TripsActivity extends Activity implements OnFragmentInteractionListener
 {
@@ -45,7 +45,7 @@ public class TripsActivity extends Activity implements OnFragmentInteractionList
         android.app.FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
-        TripFragment fragment = TripFragment.newInstance(null, null);
+        TripsFragment fragment = TripsFragment.newInstance(null, null);
         transaction.add(R.id.fragment_container, fragment, "PRIMARY_FRAGMENT");
         transaction.commit();
 
