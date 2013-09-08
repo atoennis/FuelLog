@@ -125,12 +125,18 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
     public void onCursorChanged(Cursor newCursor)
     {
         String[] fromColumns = {
-            FuelTripContract.TripEntry.COLUMN_NAME_TRIP_ODOMETER};
+            FuelTripContract.TripEntry.COLUMN_NAME_TRIP_DATE,
+            FuelTripContract.TripEntry.COLUMN_NAME_TRIP_ODOMETER,
+            FuelTripContract.TripEntry.COLUMN_NAME_TRIP_VOLUME,
+            FuelTripContract.TripEntry.COLUMN_NAME_TRIP_VOLUME_PRICE};
         int[] toFields = {
-            android.R.id.text1};
+            R.id.date_display, R.id.odometer_display, R.id.volume_display,
+            R.id.volume_price_display};
 
-        adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1,
-            newCursor, fromColumns, toFields, 0);
+        adapter = new SimpleCursorAdapter(getActivity(), R.layout.fuel_trip_item, newCursor,
+            fromColumns, toFields, 0);
+
+        listView.setAdapter(adapter);
     }
     /**
      * This interface must be implemented by activities that contain this fragment to allow an
