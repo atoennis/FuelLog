@@ -30,6 +30,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.atoennis.fuellog.TripsActivity" />
         </activity>
+
+        <provider
+            android:name="com.atoennis.fuellog.DataProvider"
+            android:authorities="com.atoennis.fuellog.provider"
+            android:enabled="true"
+            android:exported="false" >
+        </provider>
     </application>
 
 </manifest>

@@ -2,8 +2,13 @@ package com.atoennis.fuellog;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -16,14 +21,17 @@ import android.widget.ListView;
 
 import com.atoennis.fuellog.TripsFragment.OnTripsInteractionListener;
 
-public class TripsActivity extends Activity implements OnTripsInteractionListener
+public class TripsActivity extends Activity
+    implements LoaderCallbacks<Cursor>, OnTripsInteractionListener
 {
+    private static final int      TRIPS_LOADER = 0;
     private String[]              navigationItems;
     private DrawerLayout          drawerLayout;
     private ListView              drawerList;
     private ActionBarDrawerToggle drawerToggle;
     private CharSequence          title;
     private CharSequence          drawerTitle;
+    private TripsFragment         tripsFragment;
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener
     {
@@ -45,8 +53,8 @@ public class TripsActivity extends Activity implements OnTripsInteractionListene
         android.app.FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
-        TripsFragment fragment = TripsFragment.newInstance();
-        transaction.add(R.id.fragment_container, fragment, "PRIMARY_FRAGMENT");
+        tripsFragment = TripsFragment.newInstance();
+        transaction.add(R.id.fragment_container, tripsFragment, "PRIMARY_FRAGMENT");
         transaction.commit();
 
         title = drawerTitle = getTitle();
@@ -81,6 +89,8 @@ public class TripsActivity extends Activity implements OnTripsInteractionListene
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
+
+        getLoaderManager().initLoader(TRIPS_LOADER, null, this);
     }
 
     @Override
@@ -140,6 +150,36 @@ public class TripsActivity extends Activity implements OnTripsInteractionListene
     public void onFragmentInteraction(String id)
     {
         // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args)
+    {
+        Uri uri = FuelTripContract.TripEntry.CONTENT_URI;
+        String[] projection = null;
+
+        switch (id)
+        {
+            case TRIPS_LOADER:
+                return new CursorLoader(this, uri, projection, null, null, null);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
+    {
+        if (tripsFragment != null)
+        {
+            tripsFragment.onCursorChanged(cursor);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> arg0)
+    {
 
     }
 
