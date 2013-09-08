@@ -6,6 +6,7 @@
     <string name="menu_cancel">CANCEL</string>
     <string name="menu_accept">DONE</string>
     <string name="hello_world">Hello world!</string>
+    <string name="delete">delete</string>
 
     <string-array name="navigation_items">
         <item>Nav Item 1</item>
