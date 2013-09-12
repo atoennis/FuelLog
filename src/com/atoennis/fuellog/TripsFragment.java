@@ -1,5 +1,7 @@
 package com.atoennis.fuellog;
 
+import java.text.SimpleDateFormat;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -159,7 +161,17 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
         @Override
         public void bindView(View view, Context context, final Cursor cursor)
         {
+            Trip trip = Trip.fromCursor(cursor);
+            TextView date = (TextView) view.findViewById(R.id.date_display);
+            TextView distance = (TextView) view.findViewById(R.id.odometer_display);
+            TextView volume = (TextView) view.findViewById(R.id.volume_display);
+            TextView volumePrice = (TextView) view.findViewById(R.id.volume_price_display);
             Button delete = (Button) view.findViewById(R.id.delete);
+
+            date.setText(new SimpleDateFormat("EE, MMM d, yyyy").format(trip.date));
+            distance.setText(Integer.toString(trip.distance));
+            volume.setText(Integer.toString(trip.volume));
+            volumePrice.setText(Double.toString(trip.volumePrice));
 
             delete.setOnClickListener(new View.OnClickListener()
             {
