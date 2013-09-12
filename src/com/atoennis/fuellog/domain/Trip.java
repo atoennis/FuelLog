@@ -9,13 +9,15 @@ import com.atoennis.fuellog.FuelTripContract.TripEntry;
 
 public class Trip
 {
+    public final int    id;
     public final Date   date;
     public final int    distance;
     public final int    volume;
     public final double volumePrice;
 
-    public Trip(Date date, int distance, int volume, double volumePrice)
+    public Trip(int id, Date date, int distance, int volume, double volumePrice)
     {
+        this.id = id;
         this.date = date;
         this.distance = distance;
         this.volume = volume;
@@ -37,6 +39,7 @@ public class Trip
     {
         if (cursor != null)
         {
+            int id = cursor.getInt(cursor.getColumnIndex(TripEntry._ID));
             int milliseconds = cursor
                 .getInt(cursor.getColumnIndex(TripEntry.COLUMN_NAME_TRIP_DATE));
             String distance = cursor.getString(cursor
@@ -46,10 +49,10 @@ public class Trip
             String volumePrice = cursor.getString(cursor
                 .getColumnIndex(TripEntry.COLUMN_NAME_TRIP_VOLUME_PRICE));
 
-            return new Trip(new Date(milliseconds), Integer.valueOf(distance).intValue(), Integer
-                .valueOf(volume).intValue(), Integer.valueOf(volumePrice).intValue());
+            return new Trip(id, new Date(milliseconds), Integer.valueOf(distance).intValue(),
+                Integer.valueOf(volume).intValue(), Double.valueOf(volumePrice).doubleValue());
         }
 
-        return new Trip(new Date(), 0, 0, 0);
+        return new Trip(0, new Date(), 0, 0, 0);
     }
 }

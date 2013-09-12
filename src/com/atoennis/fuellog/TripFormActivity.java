@@ -127,6 +127,7 @@ public class TripFormActivity extends FragmentActivity
             Trip trip = tripFragment.getFormData();
 
             // TODO: Pull this into it's own thread.
+            // TODO: Push to content provider.
             SQLiteDatabase db = new FuelTripDbHelper(this).getWritableDatabase();
             db.insert(TripEntry.TABLE_NAME, null, trip.getContentValues());
         }

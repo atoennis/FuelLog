@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.atoennis.fuellog.domain.Trip;
@@ -128,17 +127,7 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
 
     public void onCursorChanged(Cursor newCursor)
     {
-        String[] fromColumns = {
-            FuelTripContract.TripEntry.COLUMN_NAME_TRIP_DATE,
-            FuelTripContract.TripEntry.COLUMN_NAME_TRIP_ODOMETER,
-            FuelTripContract.TripEntry.COLUMN_NAME_TRIP_VOLUME,
-            FuelTripContract.TripEntry.COLUMN_NAME_TRIP_VOLUME_PRICE};
-        int[] toFields = {
-            R.id.date_display, R.id.odometer_display, R.id.volume_display,
-            R.id.volume_price_display};
-
-        adapter = new SimpleCursorAdapter(getActivity(), R.layout.fuel_trip_item, newCursor,
-            fromColumns, toFields, 0);
+        adapter = new TripsAdapter(getActivity(), newCursor, 0);
 
         listView.setAdapter(adapter);
     }

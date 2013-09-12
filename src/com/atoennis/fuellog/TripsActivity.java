@@ -158,7 +158,8 @@ public class TripsActivity extends Activity
     @Override
     public void onDeleteTripPressed(Trip trip)
     {
-        getContentResolver().delete(FuelTripContract.TripEntry.CONTENT_URI, null, null);
+        String where = String.format("%s = %d", FuelTripContract.TripEntry._ID, trip.id);
+        getContentResolver().delete(FuelTripContract.TripEntry.CONTENT_URI, where, null);
     }
 
     @Override

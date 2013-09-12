@@ -142,7 +142,7 @@ public class TripFormFragment extends Fragment
         int volume = Integer.parseInt(volumeInput.getText().toString());
         double volumePrice = Double.parseDouble(volumePriceInput.getText().toString());
 
-        return new Trip(date, distance, volume, volumePrice);
+        return new Trip(0, date, distance, volume, volumePrice);
     }
 
     private void setDateLabel(int year, int monthOfYear, int dayOfMonth)
