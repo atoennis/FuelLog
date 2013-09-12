@@ -129,6 +129,7 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
 
     public void onCursorChanged(Cursor newCursor)
     {
+        // TODO: Automatically re-query when changes occur.
         adapter = new TripsAdapter(getActivity(), newCursor, 0);
 
         listView.setAdapter(adapter);
