@@ -2,6 +2,7 @@ package com.atoennis.fuellog;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,10 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.atoennis.fuellog.domain.Trip;
 import com.atoennis.fuellog.dummy.DummyContent;
 
 /**
@@ -116,7 +120,7 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
     {
         View emptyView = listView.getEmptyView();
 
-        if (emptyText instanceof TextView)
+        if (emptyView instanceof TextView)
         {
             ((TextView) emptyView).setText(emptyText);
         }
@@ -151,6 +155,45 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
     {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
+
+        public void onDeleteTripPressed(Trip trip);
     }
 
+    private class TripsAdapter extends CursorAdapter
+    {
+
+        public TripsAdapter(Context context, Cursor c, int flags)
+        {
+            super(context, c, flags);
+        }
+
+        @Override
+        public void bindView(View view, Context context, final Cursor cursor)
+        {
+            Button delete = (Button) view.findViewById(R.id.delete);
+
+            delete.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    if (listener != null)
+                    {
+                        listener.onDeleteTripPressed(Trip.fromCursor(cursor));
+                    }
+                }
+            });
+
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent)
+        {
+            LayoutInflater inflator = LayoutInflater.from(context);
+            View view = inflator.inflate(R.layout.fuel_trip_item, null);
+
+            return view;
+        }
+
+    }
 }

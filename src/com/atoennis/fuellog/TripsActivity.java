@@ -20,11 +20,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.atoennis.fuellog.TripsFragment.OnTripsInteractionListener;
+import com.atoennis.fuellog.domain.Trip;
 
 public class TripsActivity extends Activity
     implements LoaderCallbacks<Cursor>, OnTripsInteractionListener
 {
-    private static final int      TRIPS_LOADER = 0;
+    private static final String   EXTRA_TRIP = "EXTRA_TRIP";
+    private static final int      TRIPS_LOAD = 0;
     private String[]              navigationItems;
     private DrawerLayout          drawerLayout;
     private ListView              drawerList;
@@ -90,7 +92,7 @@ public class TripsActivity extends Activity
         };
         drawerLayout.setDrawerListener(drawerToggle);
 
-        getLoaderManager().initLoader(TRIPS_LOADER, null, this);
+        getLoaderManager().initLoader(TRIPS_LOAD, null, this);
     }
 
     @Override
@@ -154,14 +156,20 @@ public class TripsActivity extends Activity
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args)
+    public void onDeleteTripPressed(Trip trip)
+    {
+        getContentResolver().delete(FuelTripContract.TripEntry.CONTENT_URI, null, null);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle bundle)
     {
         Uri uri = FuelTripContract.TripEntry.CONTENT_URI;
         String[] projection = null;
 
         switch (id)
         {
-            case TRIPS_LOADER:
+            case TRIPS_LOAD:
                 return new CursorLoader(this, uri, projection, null, null, null);
             default:
                 return null;
@@ -182,5 +190,4 @@ public class TripsActivity extends Activity
     {
 
     }
-
 }

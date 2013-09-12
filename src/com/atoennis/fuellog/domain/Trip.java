@@ -3,6 +3,7 @@ package com.atoennis.fuellog.domain;
 import java.util.Date;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
 import com.atoennis.fuellog.FuelTripContract.TripEntry;
 
@@ -30,5 +31,25 @@ public class Trip
         values.put(TripEntry.COLUMN_NAME_TRIP_VOLUME_PRICE, volumePrice);
 
         return values;
+    }
+
+    public static Trip fromCursor(Cursor cursor)
+    {
+        if (cursor != null)
+        {
+            int milliseconds = cursor
+                .getInt(cursor.getColumnIndex(TripEntry.COLUMN_NAME_TRIP_DATE));
+            String distance = cursor.getString(cursor
+                .getColumnIndex(TripEntry.COLUMN_NAME_TRIP_ODOMETER));
+            String volume = cursor.getString(cursor
+                .getColumnIndex(TripEntry.COLUMN_NAME_TRIP_VOLUME));
+            String volumePrice = cursor.getString(cursor
+                .getColumnIndex(TripEntry.COLUMN_NAME_TRIP_VOLUME_PRICE));
+
+            return new Trip(new Date(milliseconds), Integer.valueOf(distance).intValue(), Integer
+                .valueOf(volume).intValue(), Integer.valueOf(volumePrice).intValue());
+        }
+
+        return new Trip(new Date(), 0, 0, 0);
     }
 }

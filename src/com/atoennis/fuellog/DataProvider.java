@@ -15,8 +15,11 @@ public class DataProvider extends ContentProvider
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs)
     {
-        // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        SQLiteDatabase db = new FuelTripDbHelper(getContext()).getWritableDatabase();
+
+        int rows = db.delete(FuelTripContract.TripEntry.TABLE_NAME, selection, selectionArgs);
+
+        return rows;
     }
 
     @Override
