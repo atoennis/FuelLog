@@ -19,6 +19,8 @@ public class DataProvider extends ContentProvider
 
         int rows = db.delete(FuelTripContract.TripEntry.TABLE_NAME, selection, selectionArgs);
 
+        getContext().getContentResolver().notifyChange(uri, null);
+
         return rows;
     }
 
@@ -33,8 +35,12 @@ public class DataProvider extends ContentProvider
     @Override
     public Uri insert(Uri uri, ContentValues values)
     {
-        // TODO: Implement this to handle requests to insert a new row.
-        throw new UnsupportedOperationException("Not yet implemented");
+        SQLiteDatabase db = new FuelTripDbHelper(getContext()).getWritableDatabase();
+
+        long rowId = db.insert(FuelTripContract.TripEntry.TABLE_NAME, null, values);
+
+        getContext().getContentResolver().notifyChange(uri, null);
+        return Uri.withAppendedPath(uri, Long.toString(rowId));
     }
 
     @Override

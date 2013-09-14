@@ -178,7 +178,7 @@ public class TripsActivity extends Activity
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor)
     {
         if (tripsFragment != null)
         {
@@ -187,8 +187,11 @@ public class TripsActivity extends Activity
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> arg0)
+    public void onLoaderReset(Loader<Cursor> loader)
     {
-
+        if (tripsFragment != null)
+        {
+            tripsFragment.onCursorChanged(null);
+        }
     }
 }
