@@ -194,26 +194,22 @@ public class TripsFragment extends Fragment
         @Override
         public void bindView(View view, Context context, final Cursor cursor)
         {
-            Trip trip = Trip.fromCursor(cursor);
-            TextView date = (TextView) view.findViewById(R.id.date_display);
-            TextView distance = (TextView) view.findViewById(R.id.odometer_display);
-            TextView volume = (TextView) view.findViewById(R.id.volume_display);
-            TextView volumePrice = (TextView) view.findViewById(R.id.volume_price_display);
-            Button delete = (Button) view.findViewById(R.id.delete);
+            final Trip trip = Trip.fromCursor(cursor);
+            TripsViewHolder viewHolder = (TripsViewHolder) view.getTag();
 
-            date.setText(new SimpleDateFormat("EE, MMM d, yyyy").format(trip.date));
-            distance.setText(Integer.toString(trip.distance));
-            volume.setText(Integer.toString(trip.volume));
-            volumePrice.setText(Double.toString(trip.volumePrice));
+            viewHolder.date.setText(new SimpleDateFormat("EE, MMM d, yyyy").format(trip.date));
+            viewHolder.distance.setText(Integer.toString(trip.distance));
+            viewHolder.volume.setText(Integer.toString(trip.volume));
+            viewHolder.volumePrice.setText(Double.toString(trip.volumePrice));
 
-            delete.setOnClickListener(new View.OnClickListener()
+            viewHolder.delete.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v)
                 {
                     if (listener != null)
                     {
-                        listener.onDeleteTripPressed(Trip.fromCursor(cursor));
+                        listener.onDeleteTripPressed(trip);
                     }
                 }
             });
@@ -226,8 +222,36 @@ public class TripsFragment extends Fragment
             LayoutInflater inflator = LayoutInflater.from(context);
             View view = inflator.inflate(R.layout.fuel_trip_item, null);
 
+            TextView date = (TextView) view.findViewById(R.id.date_display);
+            TextView distance = (TextView) view.findViewById(R.id.odometer_display);
+            TextView volume = (TextView) view.findViewById(R.id.volume_display);
+            TextView volumePrice = (TextView) view.findViewById(R.id.volume_price_display);
+            Button delete = (Button) view.findViewById(R.id.delete);
+
+            TripsViewHolder viewHolder = new TripsViewHolder(date, distance, volume, volumePrice,
+                delete);
+            view.setTag(viewHolder);
+
             return view;
         }
+    }
 
+    private static class TripsViewHolder
+    {
+        public final TextView date;
+        public final TextView distance;
+        public final TextView volume;
+        public final TextView volumePrice;
+        public final Button   delete;
+
+        public TripsViewHolder(TextView date, TextView distance, TextView volume,
+            TextView volumePrice, Button delete)
+        {
+            this.date = date;
+            this.distance = distance;
+            this.volume = volume;
+            this.volumePrice = volumePrice;
+            this.delete = delete;
+        }
     }
 }
