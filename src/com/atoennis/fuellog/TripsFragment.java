@@ -4,8 +4,12 @@ import java.text.SimpleDateFormat;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +18,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.atoennis.fuellog.domain.Trip;
@@ -27,8 +30,11 @@ import com.atoennis.fuellog.dummy.DummyContent;
  * <p />
  * Activities containing this fragment MUST implement the {@link Callbacks} interface.
  */
-public class TripsFragment extends Fragment implements AbsListView.OnItemClickListener
+public class TripsFragment extends Fragment
+    implements AbsListView.OnItemClickListener, LoaderCallbacks<Cursor>
 {
+
+    private static final int           TRIPS_LOAD = 0;
 
     private OnTripsInteractionListener listener;
 
@@ -40,7 +46,7 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
     /**
      * The Adapter which will be used to populate the ListView/GridView with Views.
      */
-    private ListAdapter                adapter;
+    private TripsAdapter               adapter;
 
     public static TripsFragment newInstance()
     {
@@ -69,12 +75,14 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
     {
         View view = inflater.inflate(R.layout.fragment_trip, container, false);
 
-        // Set the adapter
+        adapter = new TripsAdapter(getActivity());
         listView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) listView).setAdapter(adapter);
+        listView.setAdapter(adapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         listView.setOnItemClickListener(this);
+
+        getLoaderManager().initLoader(TRIPS_LOAD, null, this);
 
         return view;
     }
@@ -97,8 +105,14 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
     @Override
     public void onDetach()
     {
-        super.onDetach();
         listener = null;
+        getLoaderManager().destroyLoader(TRIPS_LOAD);
+        if (adapter != null)
+        {
+            adapter.changeCursor(null);
+            adapter = null;
+        }
+        super.onDetach();
     }
 
 
@@ -127,18 +141,31 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
         }
     }
 
-    public void onCursorChanged(Cursor newCursor)
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle bundle)
     {
-        if (newCursor != null)
-        {
-            adapter = new TripsAdapter(getActivity(), newCursor, 0);
+        Uri uri = FuelTripContract.TripEntry.TRIP_CONTENT_URI;
+        String[] projection = null;
 
-            listView.setAdapter(adapter);
-        }
-        else
+        switch (id)
         {
-            listView.setAdapter(null);
+            case TRIPS_LOAD:
+                return new CursorLoader(getActivity(), uri, projection, null, null, null);
+            default:
+                return null;
         }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor)
+    {
+        adapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader)
+    {
+        adapter.swapCursor(null);
     }
     /**
      * This interface must be implemented by activities that contain this fragment to allow an
@@ -157,12 +184,11 @@ public class TripsFragment extends Fragment implements AbsListView.OnItemClickLi
         public void onDeleteTripPressed(Trip trip);
     }
 
-    private class TripsAdapter extends CursorAdapter
+    public class TripsAdapter extends CursorAdapter
     {
-
-        public TripsAdapter(Context context, Cursor c, int flags)
+        public TripsAdapter(Context context)
         {
-            super(context, c, flags);
+            super(context, null, false);
         }
 
         @Override

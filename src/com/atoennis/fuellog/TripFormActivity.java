@@ -124,7 +124,7 @@ public class TripFormActivity extends FragmentActivity
         {
             Trip trip = tripFragment.getFormData();
 
-            getContentResolver().insert(FuelTripContract.TripEntry.CONTENT_URI,
+            getContentResolver().insert(FuelTripContract.TripEntry.TRIP_CONTENT_URI,
                 trip.getContentValues());
         }
         else

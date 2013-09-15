@@ -2,13 +2,8 @@ package com.atoennis.fuellog;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -22,8 +17,7 @@ import android.widget.ListView;
 import com.atoennis.fuellog.TripsFragment.OnTripsInteractionListener;
 import com.atoennis.fuellog.domain.Trip;
 
-public class TripsActivity extends Activity
-    implements LoaderCallbacks<Cursor>, OnTripsInteractionListener
+public class TripsActivity extends Activity implements OnTripsInteractionListener
 {
     private static final String   EXTRA_TRIP = "EXTRA_TRIP";
     private static final int      TRIPS_LOAD = 0;
@@ -91,8 +85,12 @@ public class TripsActivity extends Activity
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
+    }
 
-        getLoaderManager().initLoader(TRIPS_LOAD, null, this);
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
     }
 
     @Override
@@ -159,39 +157,6 @@ public class TripsActivity extends Activity
     public void onDeleteTripPressed(Trip trip)
     {
         String where = String.format("%s = %d", FuelTripContract.TripEntry._ID, trip.id);
-        getContentResolver().delete(FuelTripContract.TripEntry.CONTENT_URI, where, null);
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle bundle)
-    {
-        Uri uri = FuelTripContract.TripEntry.CONTENT_URI;
-        String[] projection = null;
-
-        switch (id)
-        {
-            case TRIPS_LOAD:
-                return new CursorLoader(this, uri, projection, null, null, null);
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor)
-    {
-        if (tripsFragment != null)
-        {
-            tripsFragment.onCursorChanged(cursor);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader)
-    {
-        if (tripsFragment != null)
-        {
-            tripsFragment.onCursorChanged(null);
-        }
+        getContentResolver().delete(FuelTripContract.TripEntry.TRIP_CONTENT_URI, where, null);
     }
 }
