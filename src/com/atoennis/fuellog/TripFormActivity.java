@@ -47,6 +47,9 @@ public class TripFormActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        // TODO: Editing is always inserting rather than updating.
+        // TODO: Editing a date always shows today rather than the actual set date.
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_form);
 
