@@ -21,12 +21,24 @@ public class TripFormActivity extends FragmentActivity
     implements OnTripFormInteractionListener, OnDatePickerInteractionListener
 {
 
+    private static final String EXTRA_TRIP      = "EXTRA_TRIP";
     private static final String DIALOG_FRAGMENT = "DIALOG_FRAGMENT";
     private TripFormFragment    tripFragment;
+    private Trip                trip;
 
     public static Intent buildTripFormActivityIntent(Context context)
     {
         Intent intent = new Intent(context, TripFormActivity.class);
+
+        return intent;
+    }
+
+    public static Intent buildTripFormActivityIntent(Context context, Trip trip)
+    {
+        Intent intent = new Intent(context, TripFormActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(EXTRA_TRIP, trip);
+        intent.putExtras(bundle);
 
         return intent;
     }
@@ -38,12 +50,21 @@ public class TripFormActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_form);
 
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            trip = (Trip) extras.getSerializable(EXTRA_TRIP);
+        }
 
-        TripFormFragment fragment = TripFormFragment.newInstance();
-        transaction.add(R.id.fragment_container, fragment, "PRIMARY_FRAGMENT");
-        transaction.commit();
+        if (savedInstanceState == null)
+        {
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+
+            TripFormFragment fragment = TripFormFragment.newInstance(trip);
+            transaction.add(R.id.fragment_container, fragment, "PRIMARY_FRAGMENT");
+            transaction.commit();
+        }
 
         setupActionBar();
     }

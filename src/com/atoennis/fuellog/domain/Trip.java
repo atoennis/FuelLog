@@ -1,5 +1,6 @@
 package com.atoennis.fuellog.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import android.content.ContentValues;
@@ -7,13 +8,15 @@ import android.database.Cursor;
 
 import com.atoennis.fuellog.FuelTripContract.TripEntry;
 
-public class Trip
+public class Trip implements Serializable
 {
-    public final int    id;
-    public final Date   date;
-    public final int    distance;
-    public final double volume;
-    public final double volumePrice;
+    private static final long serialVersionUID = 362676478003603606L;
+
+    public final int          id;
+    public final Date         date;
+    public final int          distance;
+    public final double       volume;
+    public final double       volumePrice;
 
     public Trip(int id, Date date, int distance, double volume, double volumePrice)
     {

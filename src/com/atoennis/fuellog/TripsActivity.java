@@ -147,10 +147,10 @@ public class TripsActivity extends Activity implements OnTripsInteractionListene
     }
 
     @Override
-    public void onFragmentInteraction(String id)
+    public void onTripClicked(Trip trip)
     {
-        // TODO Auto-generated method stub
-
+        Intent intent = TripFormActivity.buildTripFormActivityIntent(this, trip);
+        startActivity(intent);
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.atoennis.fuellog.domain.Trip;
  */
 public class TripFormFragment extends Fragment
 {
+    private static final String           EXTRA_TRIP = "EXTRA_TRIP";
     private OnTripFormInteractionListener listener;
     private Button                        datePicker;
     private EditText                      distanceInput;
@@ -33,17 +34,32 @@ public class TripFormFragment extends Fragment
     private EditText                      volumePriceInput;
 
     /**
-     * Use this factory method to create a new instance of this fragment using the provided
-     * parameters.
+     * Use this factory method to create a new instance of this fragment
      * 
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment TripFormFragment.
      */
     public static TripFormFragment newInstance()
     {
+        return new TripFormFragment();
+    }
+
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters.
+     * 
+     * @param Trip trip used to populate the fields of the form
+     * @return A new instance of fragment TripFormFragment.
+     */
+    public static TripFormFragment newInstance(Trip trip)
+    {
+        if (trip == null)
+        {
+            return newInstance();
+        }
+
         TripFormFragment fragment = new TripFormFragment();
         Bundle args = new Bundle();
+        args.putSerializable(EXTRA_TRIP, trip);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,7 +77,13 @@ public class TripFormFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        Trip trip = null;
         View view = inflater.inflate(R.layout.fragment_trip_form, container, false);
+
+        if (getArguments() != null)
+        {
+            trip = (Trip) getArguments().getSerializable(EXTRA_TRIP);
+        }
 
         datePicker = (Button) view.findViewById(R.id.date_picker);
         datePicker.setOnClickListener(new View.OnClickListener()
@@ -129,6 +151,9 @@ public class TripFormFragment extends Fragment
     {
         String dateStr = datePicker.getText().toString();
         Date date = null;
+        int distance = -1;
+        double volume = -1;
+        double volumePrice = -1;
         try
         {
             date = new SimpleDateFormat("EE, MMM d, yyyy").parse(dateStr);
@@ -138,9 +163,18 @@ public class TripFormFragment extends Fragment
             e.printStackTrace();
         }
 
-        int distance = Integer.parseInt(distanceInput.getText().toString());
-        double volume = Double.parseDouble(volumeInput.getText().toString());
-        double volumePrice = Double.parseDouble(volumePriceInput.getText().toString());
+        if (!distanceInput.getText().toString().isEmpty())
+        {
+            distance = Integer.parseInt(distanceInput.getText().toString());
+        }
+        if (!volumeInput.getText().toString().isEmpty())
+        {
+            volume = Double.parseDouble(volumeInput.getText().toString());
+        }
+        if (!volumePriceInput.getText().toString().isEmpty())
+        {
+            volumePrice = Double.parseDouble(volumePriceInput.getText().toString());
+        }
 
         return new Trip(0, date, distance, volume, volumePrice);
     }

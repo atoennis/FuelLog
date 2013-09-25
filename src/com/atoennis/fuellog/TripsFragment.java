@@ -21,7 +21,6 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.atoennis.fuellog.domain.Trip;
-import com.atoennis.fuellog.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.
@@ -119,11 +118,14 @@ public class TripsFragment extends Fragment
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        if (null != listener)
+        if (null != listener
+            && adapter != null)
         {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            listener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            Cursor cursor = adapter.getCursor();
+            cursor.moveToPosition(position);
+            Trip trip = Trip.fromCursor(cursor);
+
+            listener.onTripClicked(trip);
         }
     }
 
@@ -179,7 +181,7 @@ public class TripsFragment extends Fragment
     public interface OnTripsInteractionListener
     {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(String id);
+        public void onTripClicked(Trip trip);
 
         public void onDeleteTripPressed(Trip trip);
     }
