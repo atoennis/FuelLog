@@ -139,7 +139,7 @@ public class TripFormFragment extends Fragment
         }
 
         int distance = Integer.parseInt(distanceInput.getText().toString());
-        int volume = Integer.parseInt(volumeInput.getText().toString());
+        double volume = Double.parseDouble(volumeInput.getText().toString());
         double volumePrice = Double.parseDouble(volumePriceInput.getText().toString());
 
         return new Trip(0, date, distance, volume, volumePrice);

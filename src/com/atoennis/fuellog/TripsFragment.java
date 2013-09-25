@@ -199,7 +199,7 @@ public class TripsFragment extends Fragment
 
             viewHolder.date.setText(new SimpleDateFormat("EE, MMM d, yyyy").format(trip.date));
             viewHolder.distance.setText(Integer.toString(trip.distance));
-            viewHolder.volume.setText(Integer.toString(trip.volume));
+            viewHolder.volume.setText(Double.toString(trip.volume));
             viewHolder.volumePrice.setText(Double.toString(trip.volumePrice));
 
             viewHolder.delete.setOnClickListener(new View.OnClickListener()
