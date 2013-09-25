@@ -40,8 +40,8 @@ public class Trip
         if (cursor != null)
         {
             int id = cursor.getInt(cursor.getColumnIndex(TripEntry._ID));
-            int milliseconds = cursor
-                .getInt(cursor.getColumnIndex(TripEntry.COLUMN_NAME_TRIP_DATE));
+            long milliseconds = cursor.getLong(cursor
+                .getColumnIndex(TripEntry.COLUMN_NAME_TRIP_DATE));
             String distance = cursor.getString(cursor
                 .getColumnIndex(TripEntry.COLUMN_NAME_TRIP_ODOMETER));
             String volume = cursor.getString(cursor
