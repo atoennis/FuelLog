@@ -1,13 +1,13 @@
 package com.atoennis.fuellog;
 
 import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,7 @@ import com.atoennis.fuellog.DatePickerFragment.OnDatePickerInteractionListener;
 import com.atoennis.fuellog.TripFormFragment.OnTripFormInteractionListener;
 import com.atoennis.fuellog.domain.Trip;
 
-public class TripFormActivity extends FragmentActivity
+public class TripFormActivity extends Activity
     implements OnTripFormInteractionListener, OnDatePickerInteractionListener
 {
 
@@ -61,7 +61,7 @@ public class TripFormActivity extends FragmentActivity
 
         if (savedInstanceState == null)
         {
-            FragmentManager manager = getSupportFragmentManager();
+            FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
 
             TripFormFragment fragment = TripFormFragment.newInstance(trip);
@@ -129,7 +129,7 @@ public class TripFormActivity extends FragmentActivity
     public void onDateSelectorPressed()
     {
         DatePickerFragment fragment = DatePickerFragment.newInstance();
-        fragment.show(getSupportFragmentManager(), DIALOG_FRAGMENT);
+        fragment.show(getFragmentManager(), DIALOG_FRAGMENT);
     }
 
     @Override
