@@ -27,6 +27,7 @@ public class TripFormActivity extends Activity
     private static final String DIALOG_FRAGMENT = "DIALOG_FRAGMENT";
     private TripFormFragment    tripFragment;
     private Trip                trip;
+    private boolean             editState       = false;
 
     public static Intent buildTripFormActivityIntent(Context context)
     {
@@ -49,9 +50,6 @@ public class TripFormActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        // TODO: Editing is always inserting rather than updating.
-        // TODO: Editing a date always shows today rather than the actual set date.
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_form);
 
@@ -59,6 +57,7 @@ public class TripFormActivity extends Activity
         if (extras != null)
         {
             trip = (Trip) extras.getSerializable(EXTRA_TRIP);
+            editState = true;
         }
 
         if (savedInstanceState == null)
@@ -150,12 +149,21 @@ public class TripFormActivity extends Activity
         {
             Trip trip = tripFragment.getFormData();
 
-            getContentResolver().insert(FuelTripContract.TripEntry.TRIP_CONTENT_URI,
-                trip.getContentValues());
+            if (editState)
+            {
+                getContentResolver().update(FuelTripContract.TripEntry.TRIP_CONTENT_URI,
+                    trip.getContentValues(), "_ID = "
+                        + trip.id, null);
+            }
+            else
+            {
+                getContentResolver().insert(FuelTripContract.TripEntry.TRIP_CONTENT_URI,
+                    trip.getContentValues());
+            }
         }
         else
         {
-            Toast.makeText(this, "Empty trip not saved.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Incomplete trip not saved.", Toast.LENGTH_SHORT).show();
         }
 
         finish();

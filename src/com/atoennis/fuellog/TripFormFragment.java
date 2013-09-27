@@ -160,9 +160,9 @@ public class TripFormFragment extends Fragment
     {
         String dateStr = datePicker.getText().toString();
         Date date = null;
-        int distance = -1;
-        double volume = -1;
-        double volumePrice = -1;
+        Integer distance = null;
+        Double volume = null;
+        Double volumePrice = null;
         try
         {
             date = new SimpleDateFormat("EE, MMM d, yyyy").parse(dateStr);
@@ -185,7 +185,7 @@ public class TripFormFragment extends Fragment
             volumePrice = Double.parseDouble(volumePriceInput.getText().toString());
         }
 
-        return new Trip(0, date, distance, volume, volumePrice);
+        return new Trip(trip.id, date, distance, volume, volumePrice);
     }
 
     private void setDateLabel(int year, int monthOfYear, int dayOfMonth)
