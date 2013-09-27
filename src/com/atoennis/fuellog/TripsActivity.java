@@ -1,6 +1,7 @@
 package com.atoennis.fuellog;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -46,12 +47,15 @@ public class TripsActivity extends Activity implements OnTripsInteractionListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trips);
 
-        android.app.FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
+        if (savedInstanceState == null)
+        {
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
 
-        tripsFragment = TripsFragment.newInstance();
-        transaction.add(R.id.fragment_container, tripsFragment, "PRIMARY_FRAGMENT");
-        transaction.commit();
+            tripsFragment = TripsFragment.newInstance();
+            transaction.add(R.id.fragment_container, tripsFragment, "PRIMARY_FRAGMENT");
+            transaction.commit();
+        }
 
         title = drawerTitle = getTitle();
         navigationItems = getResources().getStringArray(R.array.navigation_items);
