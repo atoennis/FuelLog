@@ -28,12 +28,15 @@ public class DataProvider extends ContentProvider
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs)
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+        String sortOrder)
     {
         SQLiteDatabase db = new FuelTripDbHelper(getContext()).getWritableDatabase();
 
-        getContext().getContentResolver().notifyChange(uri, null);
-        return db.update(FuelTripContract.TripEntry.TABLE_NAME, values, selection, selectionArgs);
+        Cursor cursor = db.query(FuelTripContract.TripEntry.TABLE_NAME, projection, selection,
+            selectionArgs, null, null, sortOrder);
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return cursor;
     }
 
     @Override
@@ -48,15 +51,12 @@ public class DataProvider extends ContentProvider
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-        String sortOrder)
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs)
     {
         SQLiteDatabase db = new FuelTripDbHelper(getContext()).getWritableDatabase();
 
-        Cursor cursor = db.query(FuelTripContract.TripEntry.TABLE_NAME, projection, null, null,
-            null, null, null);
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
-        return cursor;
+        getContext().getContentResolver().notifyChange(uri, null);
+        return db.update(FuelTripContract.TripEntry.TABLE_NAME, values, selection, selectionArgs);
     }
 
     @Override

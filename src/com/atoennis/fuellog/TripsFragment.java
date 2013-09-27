@@ -148,11 +148,13 @@ public class TripsFragment extends Fragment
     {
         Uri uri = FuelTripContract.TripEntry.TRIP_CONTENT_URI;
         String[] projection = null;
+        String sortOrder = FuelTripContract.TripEntry.COLUMN_NAME_TRIP_DATE
+            + " DESC";
 
         switch (id)
         {
             case TRIPS_LOAD:
-                return new CursorLoader(getActivity(), uri, projection, null, null, null);
+                return new CursorLoader(getActivity(), uri, projection, null, null, sortOrder);
             default:
                 return null;
         }
