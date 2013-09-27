@@ -74,17 +74,22 @@ public class TripFormFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
         trip = new Trip();
         if (getArguments() != null)
         {
             trip = (Trip) getArguments().getSerializable(EXTRA_TRIP);
         }
 
+        if (savedInstanceState != null)
+        {
+            trip = (Trip) savedInstanceState.getSerializable(EXTRA_TRIP);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.fragment_trip_form, container, false);
         distanceInput = (EditText) view.findViewById(R.id.distance);
         volumeInput = (EditText) view.findViewById(R.id.volume);
@@ -140,6 +145,14 @@ public class TripFormFragment extends Fragment
             throw new ClassCastException(String.format("%s must implement %s", activity.toString(),
                 OnTripFormInteractionListener.class.getSimpleName()));
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        trip = getFormData();
+        outState.putSerializable(EXTRA_TRIP, trip);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
