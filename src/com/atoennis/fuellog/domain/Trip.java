@@ -12,13 +12,22 @@ public class Trip implements Serializable
 {
     private static final long serialVersionUID = 362676478003603606L;
 
-    public final int          id;
+    public final Integer      id;
     public final Date         date;
-    public final int          distance;
-    public final double       volume;
-    public final double       volumePrice;
+    public final Integer      distance;
+    public final Double       volume;
+    public final Double       volumePrice;
 
-    public Trip(int id, Date date, int distance, double volume, double volumePrice)
+    public Trip()
+    {
+        id = null;
+        date = new Date();
+        distance = null;
+        volume = null;
+        volumePrice = null;
+    }
+
+    public Trip(Integer id, Date date, Integer distance, Double volume, Double volumePrice)
     {
         this.id = id;
         this.date = date;
@@ -52,10 +61,10 @@ public class Trip implements Serializable
             String volumePrice = cursor.getString(cursor
                 .getColumnIndex(TripEntry.COLUMN_NAME_TRIP_VOLUME_PRICE));
 
-            return new Trip(id, new Date(milliseconds), Integer.valueOf(distance).intValue(),
-                Double.valueOf(volume).doubleValue(), Double.valueOf(volumePrice).doubleValue());
+            return new Trip(id, new Date(milliseconds), Integer.valueOf(distance),
+                Double.valueOf(volume), Double.valueOf(volumePrice));
         }
 
-        return new Trip(0, new Date(), 0, 0, 0);
+        return new Trip();
     }
 }

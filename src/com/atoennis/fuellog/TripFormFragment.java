@@ -33,6 +33,8 @@ public class TripFormFragment extends Fragment
     private EditText                      volumeInput;
     private EditText                      volumePriceInput;
 
+    private Trip                          trip;
+
     /**
      * Use this factory method to create a new instance of this fragment
      * 
@@ -77,14 +79,13 @@ public class TripFormFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Trip trip = null;
-        View view = inflater.inflate(R.layout.fragment_trip_form, container, false);
-
+        trip = new Trip();
         if (getArguments() != null)
         {
             trip = (Trip) getArguments().getSerializable(EXTRA_TRIP);
         }
 
+        View view = inflater.inflate(R.layout.fragment_trip_form, container, false);
         distanceInput = (EditText) view.findViewById(R.id.distance);
         volumeInput = (EditText) view.findViewById(R.id.volume);
         volumePriceInput = (EditText) view.findViewById(R.id.volume_price);
@@ -97,7 +98,7 @@ public class TripFormFragment extends Fragment
             {
                 if (listener != null)
                 {
-                    listener.onDateSelectorPressed();
+                    listener.onDateSelectorPressed(trip.date);
                 }
             }
         });
@@ -210,6 +211,6 @@ public class TripFormFragment extends Fragment
      */
     public interface OnTripFormInteractionListener
     {
-        public void onDateSelectorPressed();
+        public void onDateSelectorPressed(Date date);
     }
 }

@@ -1,5 +1,7 @@
 package com.atoennis.fuellog;
 
+import java.util.Date;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -126,9 +128,9 @@ public class TripFormActivity extends Activity
 
 
     @Override
-    public void onDateSelectorPressed()
+    public void onDateSelectorPressed(Date date)
     {
-        DatePickerFragment fragment = DatePickerFragment.newInstance();
+        DatePickerFragment fragment = DatePickerFragment.newInstance(date);
         fragment.show(getFragmentManager(), DIALOG_FRAGMENT);
     }
 

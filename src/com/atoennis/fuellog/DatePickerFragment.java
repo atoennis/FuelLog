@@ -2,6 +2,7 @@ package com.atoennis.fuellog;
 
 
 import java.util.Calendar;
+import java.util.Date;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -19,19 +20,39 @@ public class DatePickerFragment extends DialogFragment
     implements DatePickerDialog.OnDateSetListener
 {
 
+    private static final String             EXTRA_DATE = "EXTRA_DATE";
     private OnDatePickerInteractionListener listener;
 
     /**
-     * Use this factory method to create a new instance of this fragment using the provided
-     * parameters.
+     * Use this factory method to create a new instance of this fragment using the current date.
      * 
      * @return A new instance of fragment DatePickerFragment.
      */
     public static DatePickerFragment newInstance()
     {
+        return new DatePickerFragment();
+    }
+
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters.
+     * 
+     * @param Date date to display in the date label
+     * 
+     * @return A new instance of fragment DatePickerFragment.
+     */
+    public static DatePickerFragment newInstance(Date date)
+    {
+        if (date == null)
+        {
+            return newInstance();
+        }
+
         DatePickerFragment fragment = new DatePickerFragment();
         Bundle args = new Bundle();
+        args.putSerializable(EXTRA_DATE, date);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -66,6 +87,12 @@ public class DatePickerFragment extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         final Calendar c = Calendar.getInstance();
+        Bundle args = getArguments();
+        if (args != null)
+        {
+            Date date = (Date) args.getSerializable(EXTRA_DATE);
+            c.setTime(date);
+        }
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
