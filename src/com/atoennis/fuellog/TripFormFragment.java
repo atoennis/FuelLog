@@ -253,7 +253,7 @@ public class TripFormFragment extends Fragment
         }
 
         @Override
-        public synchronized void afterTextChanged(Editable s)
+        public void afterTextChanged(Editable s)
         {
             if (!isInAfterTextChanged)
             {
