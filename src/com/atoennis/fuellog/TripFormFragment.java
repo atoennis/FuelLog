@@ -126,8 +126,7 @@ public class TripFormFragment extends Fragment
                 volumePriceInput.setText(Double.toString(trip.volumePrice));
             }
         }
-        setDateLabel(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-            cal.get(Calendar.DAY_OF_MONTH));
+        setDateLabel(new Date(cal.getTimeInMillis()));
 
         return view;
     }
@@ -164,7 +163,12 @@ public class TripFormFragment extends Fragment
 
     public void onDateSelected(int year, int monthOfYear, int dayOfMonth)
     {
-        setDateLabel(year, monthOfYear, dayOfMonth);
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(year, monthOfYear, dayOfMonth);
+
+        trip = getFormData();
+        setDateLabel(new Date(cal.getTimeInMillis()));
     }
 
     public boolean isFormValid()
@@ -210,14 +214,10 @@ public class TripFormFragment extends Fragment
         return new Trip(trip.id, date, distance, volume, volumePrice);
     }
 
-    private void setDateLabel(int year, int monthOfYear, int dayOfMonth)
+    private void setDateLabel(Date date)
     {
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(year, monthOfYear, dayOfMonth);
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("EE, MMM d, yyyy");
-        String formattedDate = dateFormat.format(new Date(cal.getTimeInMillis()));
+        String formattedDate = dateFormat.format(date);
 
         datePicker.setText(formattedDate);
     }
