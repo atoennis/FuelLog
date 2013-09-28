@@ -214,8 +214,16 @@ public class TripsFragment extends Fragment
             viewHolder.volumePrice.setText(String.format("$%.2f", trip.volumePrice));
             if (previousTrip != null)
             {
-                viewHolder.distance.setText(String.format("%,d mi", trip.odometer
-                    - previousTrip.odometer));
+                int distance = trip.odometer
+                    - previousTrip.odometer;
+                double gasUsed = trip.volume;
+                double efficiency = distance
+                    / gasUsed;
+                int daysBetween = (int) ((trip.date.getTime() - previousTrip.date.getTime()) / (1000 * 60 * 60 * 24));
+
+                viewHolder.distance.setText(String.format("%,d mi", distance));
+                viewHolder.efficiency.setText(String.format("%.2f mi/gal", efficiency));
+                viewHolder.days.setText(String.format("%d days", daysBetween));
             }
 
             viewHolder.delete.setOnClickListener(new View.OnClickListener()
@@ -243,10 +251,12 @@ public class TripsFragment extends Fragment
             TextView volume = (TextView) view.findViewById(R.id.volume_display);
             TextView volumePrice = (TextView) view.findViewById(R.id.volume_price_display);
             TextView distance = (TextView) view.findViewById(R.id.distance_display);
+            TextView efficiency = (TextView) view.findViewById(R.id.efficiency_display);
+            TextView days = (TextView) view.findViewById(R.id.days_display);
             Button delete = (Button) view.findViewById(R.id.delete);
 
             TripsViewHolder viewHolder = new TripsViewHolder(date, odometer, volume, volumePrice,
-                distance, delete);
+                distance, efficiency, days, delete);
             view.setTag(viewHolder);
 
             return view;
@@ -260,16 +270,21 @@ public class TripsFragment extends Fragment
         public final TextView volume;
         public final TextView volumePrice;
         public final TextView distance;
+        public final TextView efficiency;
+        public final TextView days;
         public final Button   delete;
 
         public TripsViewHolder(TextView date, TextView odometer, TextView volume,
-            TextView volumePrice, TextView distance, Button delete)
+            TextView volumePrice, TextView distance, TextView efficiency, TextView days,
+            Button delete)
         {
             this.date = date;
             this.odometer = odometer;
             this.volume = volume;
             this.volumePrice = volumePrice;
             this.distance = distance;
+            this.efficiency = efficiency;
+            this.days = days;
             this.delete = delete;
         }
     }

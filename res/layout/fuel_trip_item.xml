@@ -21,6 +21,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/volume_price_display"/>
+    <TextView android:id="@+id/efficiency_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/distance_display"/>
+    <TextView android:id="@+id/days_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/efficiency_display"/>
     
     <Button android:id="@+id/delete"
         android:layout_width="wrap_content"
