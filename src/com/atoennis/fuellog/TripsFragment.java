@@ -199,12 +199,24 @@ public class TripsFragment extends Fragment
         public void bindView(View view, Context context, final Cursor cursor)
         {
             final Trip trip = Trip.fromCursor(cursor);
+            Trip previousTrip = null;
+            if (!cursor.isLast())
+            {
+                cursor.moveToPosition(cursor.getPosition() + 1);
+                previousTrip = Trip.fromCursor(cursor);
+            }
+
             TripsViewHolder viewHolder = (TripsViewHolder) view.getTag();
 
             viewHolder.date.setText(new SimpleDateFormat("EE, MMM d, yyyy").format(trip.date));
-            viewHolder.distance.setText(String.format("%,d mi", trip.distance));
+            viewHolder.odometer.setText(String.format("%,d mi", trip.odometer));
             viewHolder.volume.setText(String.format("%.2f gal", trip.volume));
             viewHolder.volumePrice.setText(String.format("$%.2f", trip.volumePrice));
+            if (previousTrip != null)
+            {
+                viewHolder.distance.setText(String.format("%,d mi", trip.odometer
+                    - previousTrip.odometer));
+            }
 
             viewHolder.delete.setOnClickListener(new View.OnClickListener()
             {
@@ -227,13 +239,14 @@ public class TripsFragment extends Fragment
             View view = inflator.inflate(R.layout.fuel_trip_item, null);
 
             TextView date = (TextView) view.findViewById(R.id.date_display);
-            TextView distance = (TextView) view.findViewById(R.id.odometer_display);
+            TextView odometer = (TextView) view.findViewById(R.id.odometer_display);
             TextView volume = (TextView) view.findViewById(R.id.volume_display);
             TextView volumePrice = (TextView) view.findViewById(R.id.volume_price_display);
+            TextView distance = (TextView) view.findViewById(R.id.distance_display);
             Button delete = (Button) view.findViewById(R.id.delete);
 
-            TripsViewHolder viewHolder = new TripsViewHolder(date, distance, volume, volumePrice,
-                delete);
+            TripsViewHolder viewHolder = new TripsViewHolder(date, odometer, volume, volumePrice,
+                distance, delete);
             view.setTag(viewHolder);
 
             return view;
@@ -243,18 +256,20 @@ public class TripsFragment extends Fragment
     private static class TripsViewHolder
     {
         public final TextView date;
-        public final TextView distance;
+        public final TextView odometer;
         public final TextView volume;
         public final TextView volumePrice;
+        public final TextView distance;
         public final Button   delete;
 
-        public TripsViewHolder(TextView date, TextView distance, TextView volume,
-            TextView volumePrice, Button delete)
+        public TripsViewHolder(TextView date, TextView odometer, TextView volume,
+            TextView volumePrice, TextView distance, Button delete)
         {
             this.date = date;
-            this.distance = distance;
+            this.odometer = odometer;
             this.volume = volume;
             this.volumePrice = volumePrice;
+            this.distance = distance;
             this.delete = delete;
         }
     }

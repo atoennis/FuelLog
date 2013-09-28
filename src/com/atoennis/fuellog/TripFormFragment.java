@@ -116,9 +116,9 @@ public class TripFormFragment extends Fragment
         {
             cal.setTime(trip.date);
 
-            if (trip.distance != null)
+            if (trip.odometer != null)
             {
-                distanceInput.setText(String.format("%,d", trip.distance));
+                distanceInput.setText(String.format("%,d", trip.odometer));
             }
             if (trip.volume != null)
             {

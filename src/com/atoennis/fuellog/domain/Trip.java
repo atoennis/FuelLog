@@ -14,7 +14,7 @@ public class Trip implements Serializable
 
     public final Integer      id;
     public final Date         date;
-    public final Integer      distance;
+    public final Integer      odometer;
     public final Double       volume;
     public final Double       volumePrice;
 
@@ -22,7 +22,7 @@ public class Trip implements Serializable
     {
         id = null;
         date = new Date();
-        distance = null;
+        odometer = null;
         volume = null;
         volumePrice = null;
     }
@@ -31,7 +31,7 @@ public class Trip implements Serializable
     {
         this.id = id;
         this.date = date;
-        this.distance = distance;
+        this.odometer = distance;
         this.volume = volume;
         this.volumePrice = volumePrice;
     }
@@ -40,7 +40,7 @@ public class Trip implements Serializable
     {
         ContentValues values = new ContentValues();
         values.put(TripEntry.COLUMN_NAME_TRIP_DATE, date.getTime());
-        values.put(TripEntry.COLUMN_NAME_TRIP_ODOMETER, distance);
+        values.put(TripEntry.COLUMN_NAME_TRIP_ODOMETER, odometer);
         values.put(TripEntry.COLUMN_NAME_TRIP_VOLUME, volume);
         values.put(TripEntry.COLUMN_NAME_TRIP_VOLUME_PRICE, volumePrice);
 
