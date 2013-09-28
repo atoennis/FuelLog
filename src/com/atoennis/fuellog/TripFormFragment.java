@@ -1,5 +1,6 @@
 package com.atoennis.fuellog;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -8,6 +9,8 @@ import java.util.Date;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,7 +118,7 @@ public class TripFormFragment extends Fragment
 
             if (trip.distance != null)
             {
-                distanceInput.setText(Integer.toString(trip.distance));
+                distanceInput.setText(String.format("%,d", trip.distance));
             }
             if (trip.volume != null)
             {
@@ -127,6 +130,8 @@ public class TripFormFragment extends Fragment
             }
         }
         setDateLabel(new Date(cal.getTimeInMillis()));
+
+        distanceInput.addTextChangedListener(new FormatTextWatcher(distanceInput));
 
         return view;
     }
@@ -200,7 +205,8 @@ public class TripFormFragment extends Fragment
 
         if (!distanceInput.getText().toString().isEmpty())
         {
-            distance = Integer.parseInt(distanceInput.getText().toString());
+            String formatted = distanceInput.getText().toString().replace(",", "");
+            distance = Integer.parseInt(formatted);
         }
         if (!volumeInput.getText().toString().isEmpty())
         {
@@ -234,5 +240,48 @@ public class TripFormFragment extends Fragment
     public interface OnTripFormInteractionListener
     {
         public void onDateSelectorPressed(Date date);
+    }
+
+    private class FormatTextWatcher implements TextWatcher
+    {
+        private final WeakReference<EditText> editTextRef;
+        private boolean                       isInAfterTextChanged = false;
+
+        public FormatTextWatcher(EditText editText)
+        {
+            this.editTextRef = new WeakReference<EditText>(editText);
+        }
+
+        @Override
+        public synchronized void afterTextChanged(Editable s)
+        {
+            if (!isInAfterTextChanged)
+            {
+                isInAfterTextChanged = true;
+                EditText editText = editTextRef.get();
+                if (editText != null
+                    && s.length() > 0)
+                {
+                    String formatted = s.toString().replace(",", "");
+                    formatted = String.format("%,d", Integer.valueOf(formatted));
+
+                    editText.setText(formatted);
+                    editText.setSelection(editText.getText().toString().length());
+                }
+
+                isInAfterTextChanged = false;
+            }
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+        }
+
     }
 }
