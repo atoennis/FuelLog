@@ -1,41 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    <TextView android:id="@+id/date_display"
+    android:layout_height="match_parent" 
+    android:background="@drawable/bg_card"
+    android:paddingTop="4dp"
+    android:paddingBottom="8dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="8dp">
+
+    <TextView
+        android:id="@+id/date_display"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView android:id="@+id/odometer_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/date_display"/>
-    <TextView android:id="@+id/volume_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/odometer_display"/>
-    <TextView android:id="@+id/volume_price_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/volume_display"/>
-    <TextView android:id="@+id/distance_display"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/odometer_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/volume_price_display"/>
-    <TextView android:id="@+id/efficiency_display"
+        android:layout_below="@id/date_display" />
+
+    <TextView
+        android:id="@+id/volume_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/distance_display"/>
-    <TextView android:id="@+id/days_display"
+        android:layout_below="@id/odometer_display" />
+
+    <TextView
+        android:id="@+id/volume_price_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/efficiency_display"/>
-    
-    <Button android:id="@+id/delete"
+        android:layout_below="@id/volume_display" />
+
+    <TextView
+        android:id="@+id/distance_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/delete"
+        android:layout_below="@id/volume_price_display" />
+
+    <TextView
+        android:id="@+id/efficiency_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/distance_display" />
+
+    <TextView
+        android:id="@+id/days_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/efficiency_display" />
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:focusable="false"/>
-    
+        android:focusable="false"
+        android:text="@string/delete" />
 
 </RelativeLayout>
