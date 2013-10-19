@@ -189,6 +189,8 @@ public class TripsFragment extends Fragment
 
     public class TripsAdapter extends CursorAdapter
     {
+        private static final String FUEL_TRIP_ITEM_DATE_FORMAT = "M/d/yyyy";
+
         public TripsAdapter(Context context)
         {
             super(context, null, false);
@@ -207,7 +209,7 @@ public class TripsFragment extends Fragment
 
             TripsViewHolder viewHolder = (TripsViewHolder) view.getTag();
 
-            viewHolder.date.setText(new SimpleDateFormat("EE, MMM d, yyyy").format(trip.date));
+            viewHolder.date.setText(new SimpleDateFormat(FUEL_TRIP_ITEM_DATE_FORMAT).format(trip.date));
             viewHolder.odometer.setText(String.format("%,d mi", trip.odometer));
             viewHolder.volume.setText(String.format("%.2f gal", trip.volume));
             viewHolder.volumePrice.setText(String.format("$%.2f", trip.volumePrice));
