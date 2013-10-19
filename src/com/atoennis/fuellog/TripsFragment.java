@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
@@ -226,18 +225,6 @@ public class TripsFragment extends Fragment
                 viewHolder.days.setText(String.format("%d days", daysBetween));
             }
 
-            viewHolder.delete.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    if (listener != null)
-                    {
-                        listener.onDeleteTripPressed(trip);
-                    }
-                }
-            });
-
         }
 
         @Override
@@ -253,10 +240,9 @@ public class TripsFragment extends Fragment
             TextView distance = (TextView) view.findViewById(R.id.distance_display);
             TextView efficiency = (TextView) view.findViewById(R.id.efficiency_display);
             TextView days = (TextView) view.findViewById(R.id.days_display);
-            Button delete = (Button) view.findViewById(R.id.delete);
 
             TripsViewHolder viewHolder = new TripsViewHolder(date, odometer, volume, volumePrice,
-                distance, efficiency, days, delete);
+                distance, efficiency, days);
             view.setTag(viewHolder);
 
             return view;
@@ -272,11 +258,9 @@ public class TripsFragment extends Fragment
         public final TextView distance;
         public final TextView efficiency;
         public final TextView days;
-        public final Button   delete;
 
         public TripsViewHolder(TextView date, TextView odometer, TextView volume,
-            TextView volumePrice, TextView distance, TextView efficiency, TextView days,
-            Button delete)
+            TextView volumePrice, TextView distance, TextView efficiency, TextView days)
         {
             this.date = date;
             this.odometer = odometer;
@@ -285,7 +269,6 @@ public class TripsFragment extends Fragment
             this.distance = distance;
             this.efficiency = efficiency;
             this.days = days;
-            this.delete = delete;
         }
     }
 }
