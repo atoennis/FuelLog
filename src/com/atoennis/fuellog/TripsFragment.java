@@ -209,7 +209,8 @@ public class TripsFragment extends Fragment
 
             TripsViewHolder viewHolder = (TripsViewHolder) view.getTag();
 
-            viewHolder.date.setText(new SimpleDateFormat(FUEL_TRIP_ITEM_DATE_FORMAT).format(trip.date));
+            viewHolder.date.setText(new SimpleDateFormat(FUEL_TRIP_ITEM_DATE_FORMAT)
+                .format(trip.date));
             viewHolder.odometer.setText(String.format("%,d mi", trip.odometer));
             viewHolder.volume.setText(String.format("%.2f gal", trip.volume));
             viewHolder.volumePrice.setText(String.format("$%.2f", trip.volumePrice));
@@ -222,9 +223,9 @@ public class TripsFragment extends Fragment
                     / gasUsed;
                 int daysBetween = (int) ((trip.date.getTime() - previousTrip.date.getTime()) / (1000 * 60 * 60 * 24));
 
-                viewHolder.distance.setText(String.format("%,d mi", distance));
+                viewHolder.distance.setText(String.format("+%,d mi", distance));
                 viewHolder.efficiency.setText(String.format("%.2f mi/gal", efficiency));
-                viewHolder.days.setText(String.format("%d days", daysBetween));
+                viewHolder.days.setText(String.format("+%d days", daysBetween));
             }
 
         }
