@@ -1,54 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
     android:background="@drawable/bg_card"
-    android:paddingTop="4dp"
     android:paddingBottom="8dp"
     android:paddingLeft="12dp"
-    android:paddingRight="8dp">
+    android:paddingRight="12dp"
+    android:paddingTop="4dp" >
 
     <TextView
         android:id="@+id/date_display"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingRight="4dp"
+        android:text="date" />
 
     <TextView
         android:id="@+id/odometer_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/date_display" />
+        android:layout_below="@id/date_display"
+        android:text="odometer" />
 
     <TextView
         android:id="@+id/volume_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/odometer_display" />
+        android:layout_below="@id/odometer_display"
+        android:text="volume" />
 
     <TextView
         android:id="@+id/volume_price_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/volume_display" />
+        android:layout_below="@id/volume_display"
+        android:text="volume price" />
 
     <TextView
         android:id="@+id/distance_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:text="distance" />
 
     <TextView
         android:id="@+id/efficiency_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/distance_display"/>
+        android:layout_below="@id/distance_display"
+        android:text="efficiency" />
 
     <TextView
         android:id="@+id/days_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true" 
-        android:layout_below="@id/efficiency_display"/>
+        android:layout_toRightOf="@id/date_display"
+        android:text="days" />
 
 </RelativeLayout>

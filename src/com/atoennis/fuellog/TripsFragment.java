@@ -225,7 +225,13 @@ public class TripsFragment extends Fragment
 
                 viewHolder.distance.setText(String.format("+%,d mi", distance));
                 viewHolder.efficiency.setText(String.format("%.2f mi/gal", efficiency));
-                viewHolder.days.setText(String.format("+%d days", daysBetween));
+                viewHolder.days.setText(String.format("(+%d days)", daysBetween));
+            }
+            else
+            {
+                viewHolder.distance.setVisibility(View.GONE);
+                viewHolder.efficiency.setVisibility(View.GONE);
+                viewHolder.days.setVisibility(View.GONE);
             }
 
         }
