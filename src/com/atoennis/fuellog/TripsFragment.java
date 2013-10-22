@@ -197,6 +197,27 @@ public class TripsFragment extends Fragment
         }
 
         @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent)
+        {
+            LayoutInflater inflator = LayoutInflater.from(context);
+            View view = inflator.inflate(R.layout.fuel_trip_item, null);
+
+            TextView date = (TextView) view.findViewById(R.id.date_display);
+            TextView odometer = (TextView) view.findViewById(R.id.odometer_display);
+            TextView volume = (TextView) view.findViewById(R.id.volume_display);
+            TextView volumePrice = (TextView) view.findViewById(R.id.volume_price_display);
+            TextView distance = (TextView) view.findViewById(R.id.distance_display);
+            TextView efficiency = (TextView) view.findViewById(R.id.efficiency_display);
+            TextView days = (TextView) view.findViewById(R.id.days_display);
+
+            TripsViewHolder viewHolder = new TripsViewHolder(date, odometer, volume, volumePrice,
+                distance, efficiency, days);
+            view.setTag(viewHolder);
+
+            return view;
+        }
+
+        @Override
         public void bindView(View view, Context context, final Cursor cursor)
         {
             final Trip trip = Trip.fromCursor(cursor);
@@ -236,26 +257,6 @@ public class TripsFragment extends Fragment
 
         }
 
-        @Override
-        public View newView(Context context, Cursor cursor, ViewGroup parent)
-        {
-            LayoutInflater inflator = LayoutInflater.from(context);
-            View view = inflator.inflate(R.layout.fuel_trip_item, null);
-
-            TextView date = (TextView) view.findViewById(R.id.date_display);
-            TextView odometer = (TextView) view.findViewById(R.id.odometer_display);
-            TextView volume = (TextView) view.findViewById(R.id.volume_display);
-            TextView volumePrice = (TextView) view.findViewById(R.id.volume_price_display);
-            TextView distance = (TextView) view.findViewById(R.id.distance_display);
-            TextView efficiency = (TextView) view.findViewById(R.id.efficiency_display);
-            TextView days = (TextView) view.findViewById(R.id.days_display);
-
-            TripsViewHolder viewHolder = new TripsViewHolder(date, odometer, volume, volumePrice,
-                distance, efficiency, days);
-            view.setTag(viewHolder);
-
-            return view;
-        }
     }
 
     private static class TripsViewHolder
