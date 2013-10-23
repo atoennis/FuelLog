@@ -37,6 +37,11 @@
             android:enabled="true"
             android:exported="false" >
         </provider>
+
+        <activity
+            android:name="com.atoennis.fuellog.TripDisplayActivity"
+            android:label="@string/title_activity_trip_display" >
+        </activity>
     </application>
 
 </manifest>

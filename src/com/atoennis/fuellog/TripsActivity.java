@@ -153,7 +153,7 @@ public class TripsActivity extends Activity implements OnTripsInteractionListene
     @Override
     public void onTripClicked(Trip trip)
     {
-        Intent intent = TripFormActivity.buildTripFormActivityIntent(this, trip);
+        Intent intent = TripDisplayActivity.buildTripDisplayActivityIntent(this, trip);
         startActivity(intent);
     }
 
