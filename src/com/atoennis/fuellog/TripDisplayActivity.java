@@ -1,15 +1,17 @@
 package com.atoennis.fuellog;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.atoennis.fuellog.NotifyTripDialogFragment.NoticeDialogListener;
 import com.atoennis.fuellog.domain.Trip;
 
-public class TripDisplayActivity extends Activity
+public class TripDisplayActivity extends Activity implements NoticeDialogListener
 {
     private static final String EXTRA_TRIP = "EXTRA_TRIP";
 
@@ -65,16 +67,40 @@ public class TripDisplayActivity extends Activity
         switch (item.getItemId())
         {
             case R.id.action_discard:
+                deleteTrip();
+                return true;
             case R.id.action_edit:
                 launchTripForm();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void deleteTrip()
+    {
+        NotifyTripDialogFragment fragment = NotifyTripDialogFragment.newInstance();
+        fragment.show(getFragmentManager(), "DIALOG_FRAGMENT");
     }
 
     private void launchTripForm()
     {
         Intent intent = TripFormActivity.buildTripFormActivityIntent(this, trip);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteTrip(DialogFragment dialog)
+    {
+        dialog.dismiss();
+
+        String where = String.format("%s = %d", FuelTripContract.TripEntry._ID, trip.id);
+        getContentResolver().delete(FuelTripContract.TripEntry.TRIP_CONTENT_URI, where, null);
+    }
+
+    @Override
+    public void onCancel(DialogFragment dialog)
+    {
+        dialog.getDialog().cancel();
     }
 }

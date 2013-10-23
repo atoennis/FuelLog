@@ -26,5 +26,7 @@
     <string name="hint_volume_price">Volume Price USD/gal</string>
     <string name="label_now">Now</string>
     <string name="title_activity_trip_display">TripDisplayActivity</string>
+    
+    <string name="dialog_delete_trip">Delete this trip?</string>
 
 </resources>
