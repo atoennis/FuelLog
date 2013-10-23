@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.atoennis.fuellog.domain.Trip;
 
 public class TripDisplayActivity extends Activity
 {
     private static final String EXTRA_TRIP = "EXTRA_TRIP";
+
+    private Trip                trip;
 
     public static Intent buildTripDisplayActivityIntent(Context context, Trip trip)
     {
@@ -28,15 +31,50 @@ public class TripDisplayActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_display);
-    }
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            trip = (Trip) extras.getSerializable(EXTRA_TRIP);
+        }
+
+        if (savedInstanceState != null)
+        {
+            trip = (Trip) savedInstanceState.getSerializable(EXTRA_TRIP);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.trip_display, menu);
         return true;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        outState.putSerializable(EXTRA_TRIP, trip);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.action_discard:
+            case R.id.action_edit:
+                launchTripForm();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void launchTripForm()
+    {
+        Intent intent = TripFormActivity.buildTripFormActivityIntent(this, trip);
+        startActivity(intent);
+    }
 }
