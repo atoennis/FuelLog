@@ -44,6 +44,10 @@ public class TripDisplayActivity extends Activity implements NoticeDialogListene
         {
             trip = (Trip) savedInstanceState.getSerializable(EXTRA_TRIP);
         }
+        else
+        {
+
+        }
     }
 
     @Override
